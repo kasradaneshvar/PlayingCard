@@ -10,12 +10,12 @@ import UIKit
 
 class PlayingCardView: UIView {
 
-    var rank: Int = 5 { didSet { setNeedsDisplay(); setNeedsLayout() } }
-    var suit: String = "♥️" { didSet { setNeedsDisplay(); setNeedsLayout() } }
+    var rank: Int = 12 { didSet { setNeedsDisplay(); setNeedsLayout() } }
+    var suit: String = "C" { didSet { setNeedsDisplay(); setNeedsLayout() } }
     var isFaceUp: Bool = true { didSet{ setNeedsDisplay(); setNeedsLayout() } }
     
     private func centeredAttributedString(_ string: String, fontSize: CGFloat) -> NSAttributedString {
-        var font = UIFont.preferredFont(forTextStyle: .body)
+        var font = UIFont.preferredFont(forTextStyle: .body).withSize(fontSize)
         font = UIFontMetrics(forTextStyle: .body).scaledFont(for: font) // For `Accessability`
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -44,11 +44,24 @@ class PlayingCardView: UIView {
         label.sizeToFit()
         label.isHidden = !isFaceUp
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        setNeedsDisplay()
+        setNeedsLayout()
+    }
     override func layoutSubviews() {
         super.layoutSubviews()
         
         configureCornerLabel(upperLeftCornerLable)
         upperLeftCornerLable.frame.origin = bounds.origin.offsetBy(dx: cornerOffset, dy: cornerOffset)
+        
+        configureCornerLabel(lowerRightCornerLabel)
+        lowerRightCornerLabel.transform = CGAffineTransform.identity
+            .rotated(by: CGFloat.pi)
+            .translatedBy(x: lowerRightCornerLabel.frame.size.width, y: lowerRightCornerLabel.frame.size.height)
+        lowerRightCornerLabel.frame.origin = CGPoint(x: bounds.maxX, y: bounds.maxY)
+            .offsetBy(dx: -cornerOffset, dy: -cornerOffset)
+            .offsetBy(dx: -lowerRightCornerLabel.frame.size.width, dy: -lowerRightCornerLabel.frame.size.height)
     }
     
     override func draw(_ rect: CGRect) {
@@ -58,6 +71,11 @@ class PlayingCardView: UIView {
         roundedRect.addClip()
         UIColor.white.setFill()
         roundedRect.fill()
+        
+        if let faceCardImage = UIImage(named: suit + "_" + rankString) {
+            faceCardImage.draw(in: bounds.zoom(by: SizeRatio.faceCardImageSizeToBoundsSize))
+        }
+        
     }
         
 }
