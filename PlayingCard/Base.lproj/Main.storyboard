@@ -25,6 +25,13 @@
                                     <constraint firstAttribute="width" secondItem="oIg-El-yiU" secondAttribute="height" multiplier="5:8" id="bey-g0-bmO"/>
                                     <constraint firstAttribute="width" priority="750" constant="500" id="hxn-9s-tln"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isFaceUp" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rank">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="suit" value="♣️"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.87833508343972033" blue="0.019639897273850293" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -38,6 +45,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="playingCardView" destination="oIg-El-yiU" id="5oa-FY-bCa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
